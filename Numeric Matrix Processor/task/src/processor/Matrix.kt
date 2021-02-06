@@ -40,7 +40,7 @@ open class Matrix(private val rows: Int = 1, private val columns: Int = 1) {
 
     operator fun plus(other: Matrix): Matrix {
         if (rows != other.rows() && columns != other.columns())
-            throw Exception(
+            throw IncompatibleDimensionsForMatrixOperationException(
                 "The operation cannot be performed."
             )
 
@@ -71,7 +71,7 @@ open class Matrix(private val rows: Int = 1, private val columns: Int = 1) {
 
     operator fun times(other: Matrix): Matrix {
         if (columns != other.rows)
-            throw Exception(
+            throw IncompatibleDimensionsForMatrixOperationException(
                 "The operation cannot be performed."
             )
 
@@ -135,7 +135,7 @@ class ColumnVector(n: Int) : Matrix(rows = n, columns = 1) {
     }
 }
 
-class IncompatibleDimensionsForMatrixOperationException(message: String) : Throwable()
+class IncompatibleDimensionsForMatrixOperationException(override val message: String) : Throwable()
 
 operator fun Int.times(m: Matrix): Matrix {
     return m * this.toDouble()

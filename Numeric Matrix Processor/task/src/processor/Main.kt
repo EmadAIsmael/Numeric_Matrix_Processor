@@ -23,7 +23,7 @@ fun addMatrices() {
         val m3 = m1 + m2
         println("The result is:")
         println(m3)
-    } catch (e: Exception) {
+    } catch (e: IncompatibleDimensionsForMatrixOperationException) {
         println(e.message)
     }
 }
@@ -47,7 +47,7 @@ fun multiplyMatrices() {
         val m3 = m1 * m2
         println("The result is:")
         println(m3)
-    } catch (e: Exception) {
+    } catch (e: IncompatibleDimensionsForMatrixOperationException) {
         println(e.message)
     }
 }

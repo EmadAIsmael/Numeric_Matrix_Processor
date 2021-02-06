@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="NumericMatrixProcessorTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-02-06T19:10:01" hostname="XPS-L702X" time="1.544">
+<testsuite name="NumericMatrixProcessorTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-02-06T19:20:16" hostname="XPS-L702X" time="1.282">
   <properties/>
-  <testcase name="start" classname="NumericMatrixProcessorTest" time="1.544"/>
+  <testcase name="start" classname="NumericMatrixProcessorTest" time="1.282"/>
   <system-out><![CDATA[?[1;31m
 Start test 1?[0m
 1. Add matrices
