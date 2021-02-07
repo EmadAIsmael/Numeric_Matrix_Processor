@@ -1,0 +1,12 @@
+type: code
+files:
+- name: src/Main.kt
+  visible: true
+  text: println(line.length)  // need a fix
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/7832#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: Sat, 06 Feb 2021 22:22:58 UTC
+record: -1

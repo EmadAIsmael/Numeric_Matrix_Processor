@@ -12,6 +12,17 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/Numeric Matrix Processor/task" />
+            <option value="$PROJECT_DIR$/Problems/Check length" />
+            <option value="$PROJECT_DIR$/Problems/Elvis throwing exceptions" />
+            <option value="$PROJECT_DIR$/Problems/Latte" />
+            <option value="$PROJECT_DIR$/Problems/Line length" />
+            <option value="$PROJECT_DIR$/Problems/Number of cups" />
+            <option value="$PROJECT_DIR$/Problems/Reverse me if you can" />
+            <option value="$PROJECT_DIR$/Problems/Safe round" />
+            <option value="$PROJECT_DIR$/Problems/String length" />
+            <option value="$PROJECT_DIR$/Problems/String or Int" />
+            <option value="$PROJECT_DIR$/Problems/Tea" />
+            <option value="$PROJECT_DIR$/Problems/User Information" />
             <option value="$PROJECT_DIR$/util" />
           </set>
         </option>

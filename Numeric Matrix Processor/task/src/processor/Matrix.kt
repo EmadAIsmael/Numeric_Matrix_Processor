@@ -1,10 +1,17 @@
 package processor
 
+import kotlin.math.pow
 
 open class Matrix(private val rows: Int = 1, private val columns: Int = 1) {
     protected val mat = Array(rows) { DoubleArray(columns) }
 
     constructor(arr: Array<DoubleArray>) : this(arr.size, arr[0].size) {
+        for (r in 0 until rows)
+            for (c in 0 until columns)
+                mat[r][c] = arr[r][c]
+    }
+
+    constructor(arr: MutableList<MutableList<Double>>) : this(arr.size, arr[0].size) {
         for (r in 0 until rows)
             for (c in 0 until columns)
                 mat[r][c] = arr[r][c]
@@ -82,12 +89,101 @@ open class Matrix(private val rows: Int = 1, private val columns: Int = 1) {
         return m
     }
 
-    fun transpose(): MutableList<MutableList<Double>> {
+    fun transpose(): Matrix {
         val transpose = MutableList(columns) { MutableList(rows) { 0.0 } }
         for (r in 0 until rows)
             for (c in 0 until columns)
                 transpose[c][r] = mat[r][c]
-        return transpose
+        return Matrix(transpose)
+    }
+
+    fun columnToRowReversed(c: Int): RowVector {
+        val col = column(c)
+        val n = col.rows()
+        val row = RowVector(n)
+        for (r in 0 until n)
+            row[0, (n - r - 1)] = col[r, 0]
+        return row
+    }
+
+    private fun addRow(row: RowVector, idx: Int) {
+        for (c in 0 until columns())
+            this[idx, c] = row[0, c]
+    }
+
+    fun addColumn(col: ColumnVector, colIdx: Int) {
+        for (r in 0 until rows())
+            this[r, colIdx] = col[r, 0]
+    }
+
+    fun secondaryTranspose(): Matrix {
+        val m = Matrix(columns(), rows())
+        var idx = 0
+        for (c in columns() - 1 downTo 0) {
+            val row = columnToRowReversed(c)
+            m.addRow(row, idx++)
+        }
+        return m
+    }
+
+    fun verticalLineTranspose(): Matrix {
+        val m = Matrix(rows(), columns())
+        var idx = 0
+        for (c in columns() - 1 downTo 0) {
+            val col = column(c)
+            m.addColumn(col, idx++)
+        }
+        return m
+    }
+
+    fun horizontalLineTranspose(): Matrix {
+        val m = Matrix(rows(), columns())
+        var top = 0
+        var bottom = rows - 1
+        while (top < bottom) {
+            for (c in 0 until columns()) {
+                m[top, c] = this[bottom, c]
+                m[bottom, c] = this[top, c]
+            }
+            top++
+            bottom--
+        }
+        return m
+    }
+
+    fun det(m: Matrix): Double {
+
+        if (m.rows() == 1 && m.columns() == 1)
+            return m[0,0]
+        if (m.rows() == 2 && m.columns() == 2)
+            return m[0,0] * m[1,1] - m[0,1] * m[1,0]
+
+        var det = 0.0
+        for (c in 0 until m.columns()) {
+            det += m[0, c] * cofactor(m,0 + 1, c + 1)
+        }
+        return det
+    }
+
+    fun cofactor(m: Matrix, r: Int, c: Int): Double {
+        return (-1.0).pow(r + c) * det(minor(m, r, c))
+    }
+
+    fun minor(m: Matrix, r: Int, c: Int): Matrix {
+        val newM = Matrix(m.rows() - 1, m.columns() - 1)
+        var mi = 0
+        var mj = 0
+        for (i in 0 until newM.rows()) {
+            for (j in 0 until newM.columns()) {
+                if (mi == r - 1) mi++
+                if (mj == c - 1) mj++
+                newM[i, j] = m[mi, mj]
+                mj++
+            }
+            mj = 0
+            mi++
+        }
+        return newM
     }
 
     override fun toString(): String {
