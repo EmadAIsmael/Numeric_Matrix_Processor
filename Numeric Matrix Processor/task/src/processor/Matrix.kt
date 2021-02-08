@@ -97,7 +97,7 @@ open class Matrix(private val rows: Int = 1, private val columns: Int = 1) {
         return Matrix(transpose)
     }
 
-    fun columnToRowReversed(c: Int): RowVector {
+    private fun columnToRowReversed(c: Int): RowVector {
         val col = column(c)
         val n = col.rows()
         val row = RowVector(n)
@@ -111,7 +111,7 @@ open class Matrix(private val rows: Int = 1, private val columns: Int = 1) {
             this[idx, c] = row[0, c]
     }
 
-    fun addColumn(col: ColumnVector, colIdx: Int) {
+    private fun addColumn(col: ColumnVector, colIdx: Int) {
         for (r in 0 until rows())
             this[r, colIdx] = col[r, 0]
     }
@@ -154,29 +154,29 @@ open class Matrix(private val rows: Int = 1, private val columns: Int = 1) {
     fun det(m: Matrix): Double {
 
         if (m.rows() == 1 && m.columns() == 1)
-            return m[0,0]
+            return m[0, 0]
         if (m.rows() == 2 && m.columns() == 2)
-            return m[0,0] * m[1,1] - m[0,1] * m[1,0]
+            return m[0, 0] * m[1, 1] - m[0, 1] * m[1, 0]
 
         var det = 0.0
         for (c in 0 until m.columns()) {
-            det += m[0, c] * cofactor(m,0 + 1, c + 1)
+            det += m[0, c] * cofactor(m, 0, c)
         }
         return det
     }
 
-    fun cofactor(m: Matrix, r: Int, c: Int): Double {
-        return (-1.0).pow(r + c) * det(minor(m, r, c))
+    private fun cofactor(m: Matrix, r: Int, c: Int): Double {
+        return (-1.0).pow(r + 1 + c + 1) * m.det(minor(m, r, c))
     }
 
-    fun minor(m: Matrix, r: Int, c: Int): Matrix {
+    private fun minor(m: Matrix, r: Int, c: Int): Matrix {
         val newM = Matrix(m.rows() - 1, m.columns() - 1)
         var mi = 0
         var mj = 0
         for (i in 0 until newM.rows()) {
             for (j in 0 until newM.columns()) {
-                if (mi == r - 1) mi++
-                if (mj == c - 1) mj++
+                if (mi == r) mi++
+                if (mj == c) mj++
                 newM[i, j] = m[mi, mj]
                 mj++
             }
@@ -186,11 +186,32 @@ open class Matrix(private val rows: Int = 1, private val columns: Int = 1) {
         return newM
     }
 
+    private fun cofactorsMatrix(m: Matrix): Matrix {
+        val newM = Matrix(m.rows(), m.columns())
+        for (r in 0 until newM.rows())
+            for (c in 0 until newM.columns())
+                newM[r, c] = m.cofactor(m, r, c)
+        return newM
+    }
+
+    private fun adjoint(m: Matrix): Matrix {
+        return cofactorsMatrix(m).transpose()
+    }
+
+    fun matrixInverse(m: Matrix): Matrix {
+        val det = det(m)
+        if (det == 0.0) {
+            throw Exception("This matrix doesn't have an inverse.")
+        }
+        return (1 / det) * adjoint(m)
+    }
+
     override fun toString(): String {
         var output = ""
         for (r in 0 until rows) {
             for (c in 0 until columns)
-                output += "${mat[r][c]} "
+//                output += "${mat[r][c]} "
+                output += " %+.2f ".format(mat[r][c])
             output += "\n"
         }
 

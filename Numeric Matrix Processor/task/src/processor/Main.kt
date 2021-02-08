@@ -5,12 +5,13 @@ import java.util.Scanner
 
 fun menu(scanner: Scanner): Int {
     var choice = 1000
-    while (choice !in arrayOf(1, 2, 3, 4, 5, 0)) {
+    while (choice !in arrayOf(1, 2, 3, 4, 5, 6, 0)) {
         println("1. Add matrices")
         println("2. Multiply matrix by a constant")
         println("3. Multiply matrices")
         println("4. Transpose matrix")
         println("5. Calculate a determinant")
+        println("6. Inverse matrix")
         println("0. Exit")
 
         print("Your choice: > ")
@@ -19,6 +20,7 @@ fun menu(scanner: Scanner): Int {
     choice = when (choice) {
         4 -> transpositionMenu(scanner)
         5 -> choice + 3
+        6 -> choice + 3
         else -> choice
     }
     return choice
@@ -113,6 +115,18 @@ fun calculateDeterminant() {
     println(m2)
 }
 
+fun matrixInverse() {
+    val m1 = Matrix.readMat()
+    try {
+        val m2 = m1.matrixInverse(m1)
+        println("The result is:")
+        println(m2)
+    } catch (e: Exception) {
+        println(e.message)
+    }
+
+}
+
 fun main() {
     val scanner = Scanner(System.`in`)
     while (true) {
@@ -125,6 +139,7 @@ fun main() {
             6 -> verticalLineTransposition()
             7 -> horizontalLineTransposition()
             8 -> calculateDeterminant()
+            9 -> matrixInverse()
             0 -> break
         }
     }
