@@ -126,6 +126,18 @@ open class Matrix(private val rows: Int = 1, private val columns: Int = 1) {
         return m
     }
 
+    fun sideTranspose(): Matrix {
+        val matrix = Matrix(columns(), rows())
+        val n = rows()
+        val m = columns()
+        for (r in 0 until n)
+            for (c in 0 until m) {
+                matrix[r, c] = this[m - 1 - c, n - 1 - r]
+                matrix[c, r] = this[n - 1 - r, m - 1 - c]
+            }
+        return matrix
+    }
+
     fun verticalLineTranspose(): Matrix {
         val m = Matrix(rows(), columns())
         var idx = 0
@@ -136,11 +148,26 @@ open class Matrix(private val rows: Int = 1, private val columns: Int = 1) {
         return m
     }
 
+    fun verticalTranspose(): Matrix {
+        val matrix = Matrix(rows(), columns())
+        var left = 0
+        var right = columns() - 1
+        while (left <= right) {
+            for (r in 0 until rows()) {
+                matrix[r, left] = this[r, right]
+                matrix[r, right] = this[r, left]
+            }
+            left++
+            right--
+        }
+        return matrix
+    }
+
     fun horizontalLineTranspose(): Matrix {
         val m = Matrix(rows(), columns())
         var top = 0
         var bottom = rows - 1
-        while (top < bottom) {
+        while (top <= bottom) {
             for (c in 0 until columns()) {
                 m[top, c] = this[bottom, c]
                 m[bottom, c] = this[top, c]

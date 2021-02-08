@@ -89,14 +89,16 @@ fun mainDiagonalTransposition() {
 
 fun sideDiagonalTransposition() {
     val m1 = Matrix.readMat()
-    val m2 = m1.secondaryTranspose()
+    // val m2 = m1.secondaryTranspose()
+    val m2 = m1.sideTranspose()
     println("The result is:")
     println(m2)
 }
 
 fun verticalLineTransposition() {
     val m1 = Matrix.readMat()
-    val m2 = m1.verticalLineTranspose()
+    // val m2 = m1.verticalLineTranspose()
+    val m2 = m1.verticalTranspose()
     println("The result is:")
     println(m2)
 }
